@@ -3,29 +3,30 @@ from abc import ABC, abstractmethod
 import requests
 
 
-class Parser(ABC):
-    def __init__(self):
+class VacanciesApi(ABC):
+
+    @abstractmethod
+    def get_vacancies(self, keyword):
         pass
 
 
-class HeadHunterAPI(Parser):
+class HeadHunterAPI(VacanciesApi):
     """
     Класс для работы с API HeadHunter
     Класс Parser является родительским классом, который вам необходимо реализовать
     """
 
     def __init__(self):
-        super().__init__()
-        self.url = "https://api.hh.ru/vacancies"
-        self.headers = {"User-Agent": "HH-User-Agent"}
-        self.params = {"text": "", "page": 0, "per_page": 100}
-        self.vacancies = []
+        self._url = "https://api.hh.ru/vacancies"
+        self._headers = {"User-Agent": "HH-User-Agent"}
+        self._params = {"text": "", "page": 0, "per_page": 100}
+        self._vacancies = []
 
     def get_vacancies(self, keyword):
-        self.params["text"] = keyword
-        while self.params.get("page") != 20:
-            response = requests.get(self.url, headers=self.headers, params=self.params)
+        self._params["text"] = keyword
+        while self._params.get("page") != 20:
+            response = requests.get(self._url, headers=self._headers, params=self._params)
             vacancies = response.json()["items"]
-            self.vacancies.extend(vacancies)
-            self.params["page"] += 1
-        return self.vacancies
+            self._vacancies.extend(vacancies)
+            self._params["page"] += 1
+        return self._vacancies

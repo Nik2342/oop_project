@@ -25,20 +25,46 @@ def filter_vacancies(vacancies_list, filter_words):
 
 def get_vacancies_by_salary(vacancies_list, salary_range):
     try:
-        min_salary, max_salary = salary_range.split("-")
-        min_salary = int(min_salary)
-        max_salary = int(max_salary)
+        min_salary_str, max_salary_str = salary_range.split("-")
+        min_salary = int(min_salary_str)
+        max_salary = int(max_salary_str)
     except Exception as ex:
         print("Неверный формат записи диапазона\n Пример 0-10000")
     result = []
-    for vacancy in vacancies_list:
-        if min_salary <= vacancy.salary <= max_salary:
-            result.append(vacancy)
+    vacancy_salary = 0
+    try:
+        for vacancy in vacancies_list:
+            if vacancy.get("salary").get("to") == None:
+                if vacancy.get("salary").get("from") == None:
+                    raise Exception
+                else:
+                    vacancy_salary = vacancy.get("salary").get("from")
+            else:
+                vacancy_salary = vacancy.get("salary").get("to")
+
+            if min_salary <= vacancy_salary <= max_salary:
+                result.append(vacancy)
+    except Exception as ex:
+        print(ex)
+
     return result
 
 
+def get_salary(vacancies_list):
+    vacancy_salary = 0
+    for vacancy in vacancies_list:
+        if vacancy.get("salary").get("to") == None:
+            if vacancy.get("salary").get("from") == None:
+                raise Exception
+            else:
+                vacancy_salary = vacancy.get("salary").get("from")
+        else:
+            vacancy_salary = vacancy.get("salary").get("to")
+    return vacancy_salary
+
+
 def sort_vacancies(vacancies_list):
-    return sorted(vacancies_list, key=lambda vacancy: vacancy.max_salary, reverse=True)
+    return sorted(vacancies_list, key=lambda vacancy: get_salary([vacancy]), reverse=True)
 
 
 def get_top_vacancies(vacancies_list, amount):

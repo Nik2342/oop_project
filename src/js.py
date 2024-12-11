@@ -1,4 +1,20 @@
 import json
+from abc import ABC, abstractmethod
+
+
+class Saver(ABC):
+
+    @abstractmethod
+    def add_vacancy(vacancy_list, file):
+        pass
+
+    @abstractmethod
+    def get_vacancies(file):
+        pass
+
+    @abstractmethod
+    def delete_vacancy(file):
+        pass
 
 
 class JSONSaver:
