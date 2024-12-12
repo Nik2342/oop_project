@@ -5,28 +5,27 @@ from abc import ABC, abstractmethod
 class Saver(ABC):
 
     @abstractmethod
-    def add_vacancy(vacancy_list, file):
+    def add_vacancy(self, vacancy_list):
         pass
 
     @abstractmethod
-    def get_vacancies(file):
+    def get_vacancies(self):
         pass
 
     @abstractmethod
-    def delete_vacancy(file):
+    def delete_vacancy(self):
         pass
 
 
 class JSONSaver:
 
-    def __init__(self):
-        pass
+    def __init__(self, file):
+        self.file = file
 
-    @staticmethod
-    def add_vacancy(vacancy_list, file):
+    def add_vacancy(self, vacancy_list):
         result = []
         for vacancy in vacancy_list:
-            with open(file, "a+", encoding="utf-8") as jsfile:
+            with open(self.file, "a+", encoding="utf-8") as jsfile:
                 js = json.dumps(vacancy)
                 if js not in jsfile:
                     result.append(js)
@@ -35,13 +34,11 @@ class JSONSaver:
                 else:
                     continue
 
-    @staticmethod
-    def get_vacancies(file):
-        with open(file, "r+", encoding="utf-8") as file:
+    def get_vacancies(self):
+        with open(self.file, "r+", encoding="utf-8") as file:
             jsfile = file.read()
             return jsfile
 
-    @staticmethod
-    def delete_vacancy(file):
-        with open(file, "r+", encoding="utf-8") as file:
+    def delete_vacancy(self):
+        with open(self.file, "r+", encoding="utf-8") as file:
             file.truncate(0)

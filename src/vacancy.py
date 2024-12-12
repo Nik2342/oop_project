@@ -20,7 +20,7 @@ class Vacancy:
                 if int(salary.strip()) <= 0:
                     raise ValueError("Зарплата должна быть больше 0")
                 return int(salary)
-        except Exception as ex:
+        except ValueError as ex:
             print(ex)
 
     @staticmethod
