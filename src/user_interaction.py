@@ -14,7 +14,7 @@ def user_interaction(vacancies_list):
     print_vacancies(top_vacancies)
 
 
-def filter_vacancies(vacancies_list, filter_words):
+def filter_vacancies(vacancies_list: list, filter_words: list) -> list:
     result = []
     for vacancy in vacancies_list:
         for word in filter_words:
@@ -23,7 +23,7 @@ def filter_vacancies(vacancies_list, filter_words):
     return result
 
 
-def get_vacancies_by_salary(vacancies_list, salary_range):
+def get_vacancies_by_salary(vacancies_list: list, salary_range: str) -> list:
     try:
         min_salary_str, max_salary_str = salary_range.split("-")
         min_salary = int(min_salary_str)
@@ -50,7 +50,7 @@ def get_vacancies_by_salary(vacancies_list, salary_range):
     return result
 
 
-def get_salary(vacancies_list):
+def get_salary(vacancies_list: list) -> list:
     vacancy_salary = 0
     for vacancy in vacancies_list:
         if vacancy.get("salary").get("to") == None:
@@ -63,14 +63,14 @@ def get_salary(vacancies_list):
     return vacancy_salary
 
 
-def sort_vacancies(vacancies_list):
+def sort_vacancies(vacancies_list: list) -> list:
     return sorted(vacancies_list, key=lambda vacancy: get_salary([vacancy]), reverse=True)
 
 
-def get_top_vacancies(vacancies_list, amount):
+def get_top_vacancies(vacancies_list: list, amount: int) -> list:
     return vacancies_list[:amount]
 
 
-def print_vacancies(vacancies_list):
+def print_vacancies(vacancies_list: list) -> list:
     for vacancy in vacancies_list:
         print(vacancy)
