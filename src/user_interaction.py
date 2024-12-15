@@ -24,6 +24,8 @@ def filter_vacancies(vacancies_list: list, filter_words: list) -> list:
 
 
 def get_vacancies_by_salary(vacancies_list: list, salary_range: str) -> list:
+    min_salary=0
+    max_salary= 0
     try:
         min_salary_str, max_salary_str = salary_range.split("-")
         min_salary = int(min_salary_str)
@@ -34,8 +36,8 @@ def get_vacancies_by_salary(vacancies_list: list, salary_range: str) -> list:
     vacancy_salary = 0
     try:
         for vacancy in vacancies_list:
-            if vacancy.get("salary").get("to") == None:
-                if vacancy.get("salary").get("from") == None:
+            if vacancy.get("salary").get("to") is None:
+                if vacancy.get("salary").get("from") is None:
                     raise Exception
                 else:
                     vacancy_salary = vacancy.get("salary").get("from")
@@ -53,8 +55,8 @@ def get_vacancies_by_salary(vacancies_list: list, salary_range: str) -> list:
 def get_salary(vacancies_list: list) -> list:
     vacancy_salary = 0
     for vacancy in vacancies_list:
-        if vacancy.get("salary").get("to") == None:
-            if vacancy.get("salary").get("from") == None:
+        if vacancy.get("salary").get("to") is None:
+            if vacancy.get("salary").get("from") is None:
                 raise Exception
             else:
                 vacancy_salary = vacancy.get("salary").get("from")
